@@ -89,7 +89,7 @@ class Admin {
 
 			// We need to load jquery and enable wp_localize_script.
 			// Please don't ask me why!
-			wp_enqueue_script($this->plugin_name, REPR_PLUGIN_URL . 'js/reactpress-admin.js', array('jquery'), $this->version, false);
+			wp_enqueue_script($this->plugin_name, REPR_PLUGIN_URL . 'admin/js/reactpress-admin.js', array('jquery'), $this->version, false);
 
 			wp_localize_script($this->plugin_name, "rp", array(
 				'ajaxurl' => admin_url('admin-ajax.php'),
@@ -108,7 +108,7 @@ class Admin {
 			$plugin_app_dir_url = plugin_dir_url(__FILE__) . 'js/reactpress-admin/';
 			$react_app_build = $plugin_app_dir_url . 'build/';
 
-			// Get the asset-manifest.json ($asset_manifest_json) content from React frontend, which is 
+			// Get the asset-manifest.json ($asset_manifest_json) content from React frontend, which is
 			// created after CRA build. This way we don't need to use
 			// file_get_contents, which doesn't work on some hosts.
 			require_once('js/reactpress-admin/build/asset-manifest.php');
@@ -166,7 +166,7 @@ class Admin {
 	/**
 	 * Add own post state (label) for pages used by apps.
 	 * (C) https://www.ibenic.com/post-states-labels/
-	 * 
+	 *
 	 * @param string[]   $states Array of all registered states.
 	 * @param \WP_Post $post   Post object that we can use.
 	 */
@@ -185,8 +185,8 @@ class Admin {
 	/**
 	 * Add page template. Consues a list of templates and adds two templates.
 	 * (C) https://www.pradipdebnath.com/2019/08/17/how-to-add-page-template-from-plugin-in-wordpress/
-	 * 
-	 * @param string[]  $templates  The list of page templates 
+	 *
+	 * @param string[]  $templates  The list of page templates
 	 * @since 1.0.0
 	 */
 	public function repr_add_page_template($templates) {
@@ -211,7 +211,7 @@ class Admin {
 		 * Handles all request from the admin frontend.
 		 * All request must be of type POST, because the WordPress action
 		 * 'wp_ajax_repr_admin_ajax_request' requires it.
-		 * 
+		 *
 		 * @since 1.0.0
 		 */
 		$appname = strtolower(sanitize_file_name($_POST['appname'] ?? ''));
@@ -260,8 +260,8 @@ class Admin {
 	/**
 	 * Checks if the given string is already used as a pageslug of any
 	 * post in the current WP site.
-	 * @param string $pageslug 
-	 * @return bool 
+	 * @param string $pageslug
+	 * @return bool
 	 * @since 1.2.0
 	 */
 	public function does_pageslug_exist(string $pageslug) {
@@ -310,7 +310,7 @@ class Admin {
 /**
  * Deletes directory recursively
  * (C) Paulund https://paulund.co.uk/php-delete-directory-and-files-in-directory
- * 
+ *
  * @param string $dirname
  * @return bool true if directory deleted
  * @since 1.0.0
