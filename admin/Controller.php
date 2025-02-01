@@ -200,12 +200,16 @@ class Controller {
     $respCode = wp_remote_retrieve_response_code($resp);
 
     if (200 == $respCode) {
-      $file_contents = wp_remote_retrieve_body($resp);
-      $file_contents_arr = explode(PHP_EOL, $file_contents);
-      // filter all build assets out of the file, that they don't conflict
-      // with the dev assets.
-      $filtered_arr = array_filter($file_contents_arr, fn ($el) => !strpos($el, "id='rp-react-app-asset-"));
-      $filtered_contents =  implode(PHP_EOL, $filtered_arr);
+
+      $dom = new \DOMDocument();
+	    libxml_use_internal_errors(true);
+	    $dom->loadHTML(wp_remote_retrieve_body($resp));
+	    $selector = new \DOMXPath($dom);
+	    foreach ($selector->query('//*[starts-with(@id, "rp-react-app-asset-")]') as $node) {
+		    $node->parentNode->removeChild($node);
+	    }
+	    $filtered_contents = $dom->saveHTML();
+      
       // re-add script tag for global reactPress variable
       $readded_contents = str_replace('var reactPress', "<script>\nvar reactPress", $filtered_contents);
 
